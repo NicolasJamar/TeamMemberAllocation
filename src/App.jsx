@@ -1,12 +1,14 @@
 import './App.css';
 import Header from './Header';
 import Employees from './Employees';
+import GroupedTeamMembers from './GroupedTeamMembers';
 import Footer from './Footer';
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 export default function App() {
-  const [selectedTeam, setTeam] = useState("TeamA");
-  const [employees, setEmployees] = useState([
+  const [selectedTeam, setTeam] = useState(JSON.parse(localStorage.getItem("SelectedTeam")) || "TeamA");
+  const [employees, setEmployees] = useState( JSON.parse(localStorage.getItem("EmployeeList")) || [
     {
       id: 1,
       fullName: "Bob Jones",
@@ -93,6 +95,14 @@ export default function App() {
     }
   ]);
 
+  useEffect(() => {
+    localStorage.setItem("EmployeeList", JSON.stringify(employees));
+  }, [employees]);
+
+  useEffect(() => {
+    localStorage.setItem("SelectedTeam", JSON.stringify(selectedTeam));
+  }, [selectedTeam]);
+
   const handleTeamSelectionChange = (event) => {
     setTeam(event.target.value)
   }
@@ -109,16 +119,24 @@ export default function App() {
   }
 
   return (
-    <div>
+    <Router>
       <Header selectedTeam={selectedTeam}
               teamMemberCount={employees.filter( employee => employee.teamName === selectedTeam).length}
       />
-      <Employees  employees={employees}
-                  selectedTeam={selectedTeam}
-                  handleTeamSelectionChange={handleTeamSelectionChange}
-                  handleEmployeeCardClick={handleEmployeeCardClick}
-      />
+      <Routes>
+        <Route path="/"
+                element={
+                <Employees  employees={employees}
+                      selectedTeam={selectedTeam}
+                      handleTeamSelectionChange={handleTeamSelectionChange}
+                      handleEmployeeCardClick={handleEmployeeCardClick}
+                />
+                }>
+        </Route>
+        <Route path="/GroupedTeamMembers" element={<GroupedTeamMembers/>}>
+        </Route>
+      </Routes>
       <Footer />
-    </div>
+    </Router>
   )
 }
