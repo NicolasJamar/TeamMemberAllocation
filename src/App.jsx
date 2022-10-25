@@ -1,6 +1,7 @@
 import './App.css';
 import Header from './Header';
 import Nav from './Nav';
+import NotFound from './NotFound';
 import Employees from './Employees';
 import GroupedTeamMembers from './GroupedTeamMembers';
 import Footer from './Footer';
@@ -135,7 +136,14 @@ export default function App() {
                 />
                 }>
         </Route>
-        <Route path="/GroupedTeamMembers" element={<GroupedTeamMembers/>}>
+        <Route  path="/GroupedTeamMembers" 
+                element={
+                <GroupedTeamMembers employees={employees}
+                selectedTeam={selectedTeam}
+                setTeam={setTeam}
+                />}>
+        </Route>
+        <Route path="*" element={<NotFound />}>
         </Route>
       </Routes>
       <Footer />
