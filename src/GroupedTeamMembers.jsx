@@ -13,28 +13,32 @@ const GroupedTeamMembers = ({employees, selectedTeam, setTeam}) => {
 
     const teamA = {team: "TeamA", 
                   members:teamAMembers, 
-                  collapse: selectedTeam === "TeamA"? false:true}
+                  collapsed: selectedTeam === "TeamA"? false:true}
     teams.push(teamA);
     const teamB = {team: "TeamB", 
                   members:teamBMembers, 
-                  collapse: selectedTeam === "TeamB"? false:true}
+                  collapsed: selectedTeam === "TeamB"? false:true}
     teams.push(teamB);
     const teamC = {team: "TeamC", 
                   members: teamCMembers, 
-                  collapse: selectedTeam === "TeamC"? false:true}
+                  collapsed: selectedTeam === "TeamC"? false:true}
     teams.push(teamC);
     const teamD = {team: "TeamD", 
                   members:teamDMembers, 
-                  collapse: selectedTeam === "TeamD"? false:true}
+                  collapsed: selectedTeam === "TeamD"? false:true}
     teams.push(teamD);
 
     return teams;
   }
 
   function handleTeamClick(event) {
-    const newGroupData = groupedEmployees.map(groupedData => {
-      
+    var transformedGroupData = groupedEmployees.map((groupedData) => {
+      groupedData.team === event.currentTarget.id 
+      ?{...groupedData, collapsed: !groupedData.collapsed}
+      :groupedData 
     })
+    setGroupedData(transformedGroupData)
+    setTeam(event.currentTarget.id)
   }
 
   return(
@@ -49,7 +53,7 @@ const GroupedTeamMembers = ({employees, selectedTeam, setTeam}) => {
                 Team Name: {item.team}
               </h4>
               <div id={"collapse_" + item.team}
-                    className={item.collapsed === true? "collapsed":""}>
+                    className={item.collapsed === true? "collapse":""}>
                 <hr/>
                 {
                   item.members.map( member => {
