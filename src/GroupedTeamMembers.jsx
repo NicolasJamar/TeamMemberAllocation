@@ -32,13 +32,13 @@ const GroupedTeamMembers = ({employees, selectedTeam, setTeam}) => {
   }
 
   function handleTeamClick(event) {
-    var transformedGroupData = groupedEmployees.map((groupedData) => {
-      groupedData.team === event.currentTarget.id 
+    const transformedGroupData = groupedEmployees.map((groupedData) => {
+      return groupedData.team === event.currentTarget.id 
       ?{...groupedData, collapsed: !groupedData.collapsed}
       :groupedData 
-    })
-    setGroupedData(transformedGroupData)
-    setTeam(event.currentTarget.id)
+    });
+    setGroupedData(transformedGroupData);
+    setTeam(event.currentTarget.id);
   }
 
   return(
